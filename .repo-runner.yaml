@@ -1,7 +1,7 @@
 ---
 
-image: "quay.io/luzifer/repo-runner-image"
-checkout_dir: /go/src/github.com/Luzifer/rsyslog_cron
+image: reporunner/golang-alpine
+checkout_dir: /go/src/github.com/Luzifer/elastic_cron
 
 commands:
   - make publish

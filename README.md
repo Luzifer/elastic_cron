@@ -1,17 +1,17 @@
-# Luzifer / rsyslog\_cron
+# Luzifer / elastic\_cron
 
-This project is a quick and dirty replacement for running a cron daemon inside docker containers.
+This project is a quick and dirty replacement for running a cron daemon inside docker containers while logging into an elasticsearch instance.
 
 ## Advantages
 
-- It logs the output of the jobs into a remote syslog target (like Papertrail) using TCP syslog
+- It logs the output of the jobs into an elasticsearch instance
 - Crons can be started on seconds, not only on minutes like a conventional cron
 - Due to the logs cron jobs can get debugged
 - On success and failure a HTTP ping to [Healthchecks](https://healthchecks.io/) or [Cronitor](https://cronitor.io/) can be executed
 
 ## Usage
 
-1. Put the [binary](https://github.com/Luzifer/rsyslog_cron/releases/latest) into your container
+1. Put the [binary](https://github.com/Luzifer/elastic_cron/releases/latest) into your container
 2. Generate a YAML file containing the cron definition
 3. Watch your crons get executed in your log stream
 
@@ -19,8 +19,12 @@ This project is a quick and dirty replacement for running a cron daemon inside d
 
 ```yaml
 ---
-rsyslog_target: logs.myserver.com:12345
-log_format: '<{{ syslogpri .Severity }}>{{ .Date.Format "Jan 02 15:04:05" }} {{ .Hostname }} {{ .JobName }}: {{ .Message }}'
+
+elasticsearch:
+  servers:
+    - http://localhost:9200
+  auth: [username, password]
+
 jobs:
   - name: date
     schedule: "0 * * * * *"
@@ -29,10 +33,13 @@ jobs:
       - "+%+"
     ping_success: "https://..."
     ping_failure: "https://..."
+
+...
 ```
 
-- `rsyslog_target` - needs to be a rsyslog endpoint supporting TCP plain connections like Loggly or Papertrail does.
-- `log_format` - format to use for generating the log line (above shown is default and does not need to be provided)
+- `elasticsearch`
+  - `servers` - List of elasticsearch instances of the same cluster to log to
+  - `auth` - List consisting of two elements: username and password
 - `schedule` - consists of 6 instead of the normal 5 fields:
 
 ```
