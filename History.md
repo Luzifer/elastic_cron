@@ -1,3 +1,9 @@
+# 1.0.0 / 2018-04-15
+
+  * Convert to elasticsearch logging
+
+----
+
 # 0.3.0 / 2017-09-13
 
   * Add HTTP-GET ping for success / failure
