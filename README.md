@@ -2,6 +2,8 @@
 
 This project is a quick and dirty replacement for running a cron daemon inside docker containers while logging into an elasticsearch instance.
 
+The code is basically a fork of the [rsyslog\_cron](https://github.com/Luzifer/rsyslog_cron) repo modified to log into elasticsearch.
+
 ## Advantages
 
 - It logs the output of the jobs into an elasticsearch instance
