@@ -1,6 +1,16 @@
 ---
-rsyslog_target: logs.myserver.com:12383
+
+elasticsearch:
+  index: 'elastic_cron-%{+YYYY.MM.dd}'
+  servers:
+    - http://localhost:9200
+  auth: [username, password]
+
 jobs:
   - name: date
     schedule: "0 * * * * *"
     cmd: "/bin/date"
+    args:
+      - "+%+"
+
+...

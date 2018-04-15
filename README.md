@@ -21,6 +21,7 @@ This project is a quick and dirty replacement for running a cron daemon inside d
 ---
 
 elasticsearch:
+  index: 'elastic_cron-%{+YYYY.MM.dd}'
   servers:
     - http://localhost:9200
   auth: [username, password]
@@ -38,6 +39,7 @@ jobs:
 ```
 
 - `elasticsearch`
+  - `index` - Name of the index to write messages to (understands same date specifier as ES beats)
   - `servers` - List of elasticsearch instances of the same cluster to log to
   - `auth` - List consisting of two elements: username and password
 - `schedule` - consists of 6 instead of the normal 5 fields:
